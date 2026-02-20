@@ -8,3 +8,13 @@
 body {
   @apply font-sans text-slate-800 bg-slate-50 antialiased selection:bg-indigo-100 selection:text-indigo-900;
 }
+
+button,
+[role="button"],
+label[for],
+summary,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  cursor: pointer;
+}

@@ -449,9 +449,19 @@
       <div v-if="currentTab === 'horario-base'" class="animate-in fade-in duration-300">
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
-            <div>
-              <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Horario Base</h2>
-              <p class="text-slate-500 mt-1">Visualización interactiva del cuadrante por días.</p>
+            <div class="flex items-center gap-4">
+              <div>
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Horario Base</h2>
+                <p class="text-slate-500 mt-1">Visualización interactiva del cuadrante por días.</p>
+              </div>
+              <button
+                v-if="cuadrante"
+                @click="handleExportExcel"
+                class="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors shadow-sm text-sm font-medium whitespace-nowrap"
+              >
+                <span class="material-icons text-lg">download</span>
+                Descargar Excel
+              </button>
             </div>
             <div class="flex gap-1.5 bg-slate-100 p-1.5 rounded-xl overflow-x-auto w-full sm:w-auto">
               <button
@@ -557,7 +567,7 @@ import FileUploader from './components/FileUploader.vue'
 import ScheduleGrid from './components/ScheduleGrid.vue'
 import { validateTablaA, validateTablaB } from './utils/validators.js'
 import { schedulerAlgorithm } from './utils/scheduler.js'
-import { exportGridHTML, exportAssignmentsCSV, downloadSampleTablaA, downloadSampleTablaB } from './utils/export.js'
+import { exportGridHTML, exportAssignmentsCSV, exportScheduleExcel, downloadSampleTablaA, downloadSampleTablaB } from './utils/export.js'
 import { DAYS, DAY_LABELS } from './utils/time-utils.js'
 
 export default {
@@ -664,6 +674,12 @@ export default {
     handleExportCSV() {
       if (this.cuadrante) {
         exportAssignmentsCSV(this.cuadrante)
+      }
+    },
+
+    async handleExportExcel() {
+      if (this.cuadrante) {
+        await exportScheduleExcel(this.cuadrante)
       }
     },
 
